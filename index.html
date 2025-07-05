@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonbons d'Exception - Confiserie Artisanale de Luxe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b6b;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cart-icon {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .cart-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-50px, -50px) rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ffd93d, #ff6b6b);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.6s both;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.5);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .products {
+            padding: 80px 0;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border-radius: 2px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover .product-image::before {
+            transform: translateX(100%);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .product-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .features {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #ffd93d;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ffd93d;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">🍭 Bonbons d'Exception</div>
+            <ul class="nav-links">
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#produits">Produits</a></li>
+                <li><a href="#about">À Propos</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#panier" class="cart-icon">🛒 Panier (0)</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="accueil">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Bonbons d'Exception</h1>
+                <p>Découvrez notre collection de confiseries artisanales premium, créées avec les meilleurs ingrédients</p>
+                <a href="#produits" class="cta-button">Découvrir nos Bonbons</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="products" id="produits">
+        <div class="container">
+            <h2 class="section-title">Nos Créations Artisanales</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">🍬</div>
+                    <div class="product-info">
+                        <h3>Bonbons à la Lavande</h3>
+                        <p>Délicats bonbons infusés à la lavande de Provence, une explosion de saveurs florales</p>
+                        <div class="product-price">12,90 €</div>
+                        <button class="add-to-cart">Ajouter au Panier</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">🍯</div>
+                    <div class="product-info">
+                        <h3>Caramels au Miel</h3>
+                        <p>Caramels fondants au miel d'acacia, une texture onctueuse et un goût authentique</p>
+                        <div class="product-price">15,50 €</div>
+                        <button class="add-to-cart">Ajouter au Panier</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">🍓</div>
+                    <div class="product-info">
+                        <h3>Gélifiés aux Fruits</h3>
+                        <p>Pâtes de fruits premium aux saveurs intenses, fabriquées avec des fruits frais</p>
+                        <div class="product-price">18,90 €</div>
+                        <button class="add-to-cart">Ajouter au Panier</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">🍫</div>
+                    <div class="product-info">
+                        <h3>Pralines au Chocolat</h3>
+                        <p>Pralines enrobées de chocolat noir 70%, un mélange parfait de croquant et de fondant</p>
+                        <div class="product-price">22,90 €</div>
+                        <button class="add-to-cart">Ajouter au Panier</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">🌸</div>
+                    <div class="product-info">
+                        <h3>Bonbons à la Rose</h3>
+                        <p>Confiseries délicates parfumées à l'eau de rose, une création raffinée et élégante</p>
+                        <div class="product-price">16,50 €</div>
+                        <button class="add-to-cart">Ajouter au Panier</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">🥥</div>
+                    <div class="product-info">
+                        <h3>Rochers Coco</h3>
+                        <p>Rochers à la noix de coco fraîche, enrobés de chocolat blanc premium</p>
+                        <div class="product-price">19,90 €</div>
+                        <button class="add-to-cart">Ajouter au Panier</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Pourquoi Choisir Nos Bonbons ?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌱</div>
+                    <h3>Ingrédients Naturels</h3>
+                    <p>Nous utilisons uniquement des ingrédients premium et naturels, sans colorants ni conservateurs artificiels</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍🍳</div>
+                    <h3>Fabrication Artisanale</h3>
+                    <p>Chaque bonbon est confectionné à la main selon des méthodes traditionnelles transmises de génération en génération</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🚚</div>
+                    <h3>Livraison Rapide</h3>
+                    <p>Expédition sous 24h dans un emballage soigné pour préserver la fraîcheur de nos créations</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎁</div>
+                    <h3>Emballage Cadeau</h3>
+                    <p>Offrez le plaisir avec nos écrins luxueux, parfaits pour vos cadeaux les plus précieux</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>📞 +33 1 23 45 67 89</p>
+                    <p>📧 contact@bonbons-exception.fr</p>
+                    <p>📍 123 Rue de la Gourmandise, 75001 Paris</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Informations</h4>
+                    <p><a href="#">Livraison & Retours</a></p>
+                    <p><a href="#">Conditions Générales</a></p>
+                    <p><a href="#">Politique de Confidentialité</a></p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Suivez-nous</h4>
+                    <p><a href="#">Facebook</a></p>
+                    <p><a href="#">Instagram</a></p>
+                    <p><a href="#">Twitter</a></p>
+                </div>
+            </div>
+            <p>&copy; 2025 Bonbons d'Exception. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Animation du header au scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.15)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
+            }
+        });
+
+        // Gestion du panier
+        let cart = [];
+        let cartCount = 0;
+
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('h3').textContent;
+                const productPrice = productCard.querySelector('.product-price').textContent;
+                
+                cart.push({
+                    name: productName,
+                    price: productPrice
+                });
+                
+                cartCount++;
+                document.querySelector('.cart-icon').textContent = `🛒 Panier (${cartCount})`;
+                
+                // Animation du bouton
+                this.style.background = 'linear-gradient(45deg, #4CAF50, #45a049)';
+                this.textContent = 'Ajouté !';
+                
+                setTimeout(() => {
+                    this.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+                    this.textContent = 'Ajouter au Panier';
+                }, 1000);
+            });
+        });
+
+        // Scroll fluide pour les liens de navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animation des cartes produits au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
